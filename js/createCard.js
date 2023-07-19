@@ -354,6 +354,10 @@ function drawTextArea(assets, offsetX, offsetY, maxX, maxY) {
         if (sections.length > 0) {
             sections.forEach(({ lines }) => {
                 textSpace += linespace * lines.length;
+                if (lines.includes("bw_bar")) {
+                    // this adds the additional spacing for the brainwash bar
+                    textSpace += 14 - linespace;
+                }
             });
         }
 
@@ -398,7 +402,20 @@ function drawIconText (assets, sections, offsetX, offsetY, space = 0) {
             if (line == "" && line_icons.length == 0) continue;
 
             if (line != "") {
-                fillText(line, offsetX, lineOffset);
+                if (line === "bw_bar") {
+                    if (Object.prototype.hasOwnProperty.call(assets, "bw_bar")) {
+                        const asset = assets["bw_bar"];
+                        drawImage(asset, 
+                            0, 0, asset.width, asset.height,
+                            offsetX, lineOffset, 172, 14
+                        );
+                    }
+                    lineOffset += 14;
+                    continue;
+                } 
+                else {
+                    fillText(line, offsetX, lineOffset);
+                }
             }
             line_icons.forEach((icon) => {
                 if (Object.prototype.hasOwnProperty.call(assets, icon.icon)) {

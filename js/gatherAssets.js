@@ -56,6 +56,7 @@ function gatherAssets(common_config, type_config) {
         if (type_config.tribe) {
             if(common_config.subtype && common_config.subtype.toLowerCase().includes("minion")) {
                 assets.push({ template: `img/template/${type_config.tribe}bw.png` });
+                assets.push({ bw_bar: `img/brainwashed_bar.png` })
             } else {
                 assets.push({ template: `img/template/${type_config.tribe}.png` });
             }

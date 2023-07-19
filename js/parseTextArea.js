@@ -1,5 +1,6 @@
 const split_regex = /(?:[ ]+)|(:[^ ]*:)|({{[^ }]*}})/;
 const icon_regex = /(:[^ ]*:)|({{[^ }]*}})/;
+const bw_bar_regex = /^---*$/;
 
 /** @typedef {{icon: string, offset: number, line: number}} Icon*/ 
 
@@ -55,7 +56,13 @@ export function parseLine (ctx, text, maxWidth, scale, parseIcons = true) {
             let new_width = line_width;
             let icon = null;
 
-            if (parseIcons && icon_regex.test(next_word)) {
+            // brainwash bar drawing
+            if (parseIcons && bw_bar_regex.test(next_word)) {
+                lines.push("bw_bar");
+                return { lines, icons };
+            }
+            // draw an icon in the line
+            else if (parseIcons && icon_regex.test(next_word)) {
                 icon = parseIcon(next_word);
                 new_width += 12 * scale; // width of the icon
                 next_word = " ".repeat(4); // equivalent width of placeholding spaces
