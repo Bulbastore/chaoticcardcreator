@@ -213,6 +213,7 @@ function drawCard(assets) {
 
     // Name and subname
     if (common_config.name) { 
+        const name = common_config.upper ? common_config.name.toUpperCase() : common_config.name;
         // ctx.fillStyle = '#f3f3f3';
         ctx.fillStyle = "#fff";
         ctx.textAlign = 'center';
@@ -224,23 +225,24 @@ function drawCard(assets) {
         ctx.lineWidth = .5;
 
         if (common_config.subname) {
+            const subname = common_config.upper ? common_config.subname.toUpperCase() : common_config.subname;
             setFont(11.5, 'Eurostile-BoldExtendedTwo');
             setDropShadow(3, 2, 2);
-            fillText(common_config.name, width / 2 , 18);
+            fillText(name, width / 2 , 18);
             setDropShadow();
-            strokeText(common_config.name, width / 2 , 18);
+            strokeText(name, width / 2 , 18);
             
             setFont(7, 'Eurostile-BoldExtendedTwo');
             setDropShadow(2, 1, 1);
-            fillText(common_config.subname, width / 2 , 27);
+            fillText(subname, width / 2 , 27);
             setDropShadow();
-            strokeText(common_config.subname, width / 2 , 27);
+            strokeText(subname, width / 2 , 27);
         } else {
             setFont(11.5, 'Eurostile-BoldExtendedTwo', "Bold");
             setDropShadow(3, 2, 2);
-            fillText(common_config.name, width / 2, 23);
+            fillText(name, width / 2, 23);
             setDropShadow();
-            strokeText(common_config.name, width / 2, 23);
+            strokeText(name, width / 2, 23);
         }
 
         ctx.lineWidth = 1;

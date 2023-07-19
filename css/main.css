@@ -37,3 +37,8 @@ td {
 tr td:first-child {
     width: 70px;
 }
+
+input[type="checkbox"] {
+    accent-color: #1F1F1F;
+    color: grey
+}
