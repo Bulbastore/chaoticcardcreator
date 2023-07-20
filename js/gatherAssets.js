@@ -202,14 +202,14 @@ function parseMCTribe (amount, tribe) {
         return `{{${tribe}_0}}`;
     }
     else {
-        if (amount.trim() == "" || isNaN(amount)) {
+        if (amount.trim() == "" || isNaN(Number(amount))) {
             return `{{${tribe}}}`;
         }
         else if (tribe == "m'arrillian" && (amount == '6' || amount == '10')) {
             return `{{${tribe}_${amount}}}`;
         } 
         else {
-            return `{{${tribe}}}`.repeat(amount);
+            return `{{${tribe}}}`.repeat(Number(amount));
         }
     }
 }

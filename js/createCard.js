@@ -295,7 +295,7 @@ function drawTextArea(assets, offsetX, offsetY, maxX, maxY) {
         ctx.textAlign = 'left';
 
         const { lines } = parseTextArea(ctx, common_config.flavor, maxX, scale, false)
-            .reduce((p, c) => ({ lines: [...p.lines, ...c.lines] }));
+            .reduce((p, c) => ({ lines: [...p.lines, ...c.lines], icons : [] }));
 
         // Flavor text gets drawn at the bottom of the card
         // Take the height of the text area and subtract the number of lines from the bottom
@@ -392,7 +392,10 @@ function drawTextArea(assets, offsetX, offsetY, maxX, maxY) {
 }
 
 function drawIconText (assets, sections, offsetX, offsetY, space = 0) {
+     /** @type {Array<Function>} */
+    const drawQueue = [];
     let lineOffset = offsetY;
+    let brainwashed = NaN;
 
     sections.forEach(({ lines, icons }) => {
         lineOffset += space;
@@ -405,30 +408,47 @@ function drawIconText (assets, sections, offsetX, offsetY, space = 0) {
                 if (line === "bw_bar") {
                     if (Object.prototype.hasOwnProperty.call(assets, "bw_bar")) {
                         const asset = assets["bw_bar"];
-                        drawImage(asset, 
+                        drawQueue.push(drawImage.bind(this, asset, 
                             0, 0, asset.width, asset.height,
                             offsetX, lineOffset, 172, 14
-                        );
+                        ));
                     }
                     lineOffset += 14;
+                    brainwashed = lineOffset
                     continue;
                 } 
                 else {
-                    fillText(line, offsetX, lineOffset);
+                    drawQueue.push(fillText.bind(this, line, offsetX, lineOffset));
                 }
             }
             line_icons.forEach((icon) => {
                 if (Object.prototype.hasOwnProperty.call(assets, icon.icon)) {
                     const asset = assets[icon.icon];
-                    drawImage(asset, 
+                    drawQueue.push(drawImage.bind(this, asset, 
                         0, 0, asset.width, asset.height,
                         offsetX + icon.offset + .5, lineOffset - 1, 12, 12
-                    );
+                    ));
                 }
             });
             lineOffset += linespace;
         }
     });
+
+    // Draw the background for brainwashed area
+    if (!Number.isNaN(brainwashed)) {
+        const fillStyle = ctx.fillStyle;
+        ctx.fillStyle = "rgb(220 221 223 / 90%)";
+        ctx.beginPath();
+        ctx.roundRect(
+            offsetX * scale, brainwashed * scale, 
+            172 * scale, (lineOffset - brainwashed + space) * scale, 
+            [0, 0, 3, 3]
+        );
+        ctx.fill();
+        ctx.fillStyle = fillStyle;
+    }
+
+    drawQueue.forEach((draw) => draw());
 
     return lineOffset;
 }

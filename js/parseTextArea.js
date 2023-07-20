@@ -9,7 +9,7 @@ const bw_bar_regex = /^---*$/;
  * @param {string} text Text to draw
  * @param {number} maxWidth Maximum width of the text to be drawn
  * @param {number} scale The card scaling used
- * @param {boolean=true} parseIcons Whether to parse icons (default true)
+ * @param {boolean} [parseIcons=true] Whether to parse icons (default true)
  * @returns { {lines: string[], icons: Icon[]}[] } Returns the lines and icons of the drawn text area
  */
 export function parseTextArea(ctx, text, maxWidth, scale, parseIcons = true) {
@@ -36,7 +36,7 @@ export function parseTextArea(ctx, text, maxWidth, scale, parseIcons = true) {
  * @param {string} text Text to draw
  * @param {number} maxWidth Maximum width of the text to be drawn
  * @param {number} scale The card scaling used
- * @param {boolean=true} parseIcons Whether to parse icons (default true)
+ * @param {boolean} [parseIcons=true] Whether to parse icons (default true)
  * @returns { {lines: string[], icons: Icon[]} } Returns the parsed lines of the given text input
  */
 export function parseLine (ctx, text, maxWidth, scale, parseIcons = true) {
