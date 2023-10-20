@@ -15,14 +15,14 @@ const updatebtn = document.getElementById("update");
 // Clears values not shared between types
 const changeType = document.getElementById("type");
 changeType.addEventListener("change", function() {
+    document.getElementById("type-form").reset();
+    downloadbtn.classList.add("isDisabled");
+    
     const prevType = document.getElementsByClassName("form-show");
+
     Array.from(prevType).forEach(el => {
         el.classList.remove("form-show");
     });
-    if (prevType.length > 0) {
-        document.getElementById("type-form").reset();
-        downloadbtn.classList.add("isDisabled");
-    }
 
     updateCommonConfig("type", this.value);
 
